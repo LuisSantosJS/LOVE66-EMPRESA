@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text } from 'react-native'
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native'
 import Header from '../../components/Header'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
@@ -8,8 +8,11 @@ import styles from './styles'
 import OPs from '../../assets/ops.png'
 //@ts-ignore 
 import Add from '../../assets/icons/addM.png'
+
+import ModalAddSolicit from '../../components/ModalAddSolicit'
 const Home: React.FC = () => {
     const navigation = useNavigation();
+    const [isVisibleModalAdd, setIsVisibleModalAdd] = useState<boolean>(false);
     return (
         <>
             <Header navigation={navigation} title='LOVE 99 - SERRANO SUSHI' />
@@ -21,9 +24,10 @@ const Home: React.FC = () => {
                     para solicitar clique no <Text style={{ color: 'red' }}>botão vermelho</Text> abaixo
                 </Text>
             </View>
-            <View style={styles.floats}>
+            <TouchableOpacity onPress={() => setIsVisibleModalAdd(true)} style={styles.floats}>
                 <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.add} source={Add} />
-            </View>
+            </TouchableOpacity>
+            <ModalAddSolicit isOpen={isVisibleModalAdd} onSwipeComplete={setIsVisibleModalAdd} navigation={navigation} />
         </>
     )
 }

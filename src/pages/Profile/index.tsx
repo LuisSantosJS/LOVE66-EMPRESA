@@ -1,16 +1,16 @@
 import React from 'react';
 import Header from '../../components/Header'
-import { View, Text } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import styles from './styles';
 //@ts-ignore
-import TermsIcon from '../../assets/icons/termos.png'
+import Poli from '../../assets/poli.png'
 //@ts-ignore
-import PoliIcon from '../../assets/icons/poli.png'
+import Agenda from '../../assets/agenda.png'
 //@ts-ignore
-import SobreSuppor from '../../assets/icons/sobre.png'
+import Suporte from '../../assets/supp.png'
 //@ts-ignore
-import ExiIcon from '../../assets/icons/exit.png'
+import Sair from '../../assets/sair.png'
 import FastImage from 'react-native-fast-image'
 
 const Profile: React.FC = () => {
@@ -22,22 +22,25 @@ const Profile: React.FC = () => {
                 <View style={{ padding: 10 }} />
                 <Text style={styles.text}>Olá, SERRANO SUSHI</Text>
                 <View style={{ padding: 10 }} />
-                <View style={styles.row}>
-                    <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.icon} source={TermsIcon} />
-                    <Text style={styles.txt}>Termos de uso</Text>
-                </View>
-                <View style={styles.row}>
-                    <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.icon} source={PoliIcon} />
-                    <Text style={styles.txt}>Politica de privacidade</Text>
-                </View>
-                <View style={styles.row}>
-                    <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.icon} source={SobreSuppor} />
-                    <Text style={styles.txt}>Suporte</Text>
-                </View>
-                <View style={styles.row}>
-                    <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.icon} source={ExiIcon} />
-                    <Text style={styles.txt}>Sair</Text>
-                </View>
+                <TouchableOpacity activeOpacity={0.7} style={[styles.rows0, { width: '90%' }]}>
+                    <FastImage style={styles.agenda} source={Agenda} />
+                    <Text style={styles.rowTex}>Dados pessoais</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.7} style={[styles.rows0, { width: '90%' }]}>
+                    <FastImage style={styles.agenda} source={Poli} />
+                    <Text style={styles.rowTex}>Politica de privacidade</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.7} style={[styles.rows0, { width: '90%' }]}>
+                    <FastImage style={styles.agenda} source={Suporte} />
+                    <Text style={styles.rowTex}>Suporte</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity activeOpacity={0.7} style={[styles.rows0, { width: '90%' }]}>
+                    <FastImage style={styles.agenda} source={Sair} />
+                    <Text style={styles.rowTex}>Sair</Text>
+                </TouchableOpacity>
 
             </View>
         </>
