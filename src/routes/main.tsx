@@ -4,9 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar, Dimensions, Image } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { getStatusBarHeight } from 'react-native-status-bar-height'
-import Login from '../pages/Login'
-import Home from '../pages/Home';
-
+import HomeRouter from './Home'
+import ProfileRouter from './Profile'
 const width = Dimensions.get('window').width
 
 
@@ -18,7 +17,8 @@ import EntregasIcon from '../assets/icons/Entregas.png'
 import ProfileIcon from '../assets/icons/profile.png'
 
 import Entregas from '../pages/Entregas';
-import Profile from '../pages/Profile';
+import EntregasRouter from './Entregas';
+
 
 const { Navigator, Screen } = createBottomTabNavigator();
 const RouterTab: React.FC = () => {
@@ -58,7 +58,7 @@ const RouterTab: React.FC = () => {
 
                     <Screen
                         name="Home"
-                        component={Home}
+                        component={HomeRouter}
                         options={{
                             tabBarVisible: true,
                             tabBarLabel: 'Home',
@@ -71,7 +71,7 @@ const RouterTab: React.FC = () => {
                     />
                     <Screen
                         name="Entregas"
-                        component={Entregas}
+                        component={EntregasRouter}
                         options={{
                             tabBarVisible: true,
                             tabBarLabel: 'Entregas',
@@ -84,7 +84,7 @@ const RouterTab: React.FC = () => {
                     />
                     <Screen
                         name="Profile"
-                        component={Profile}
+                        component={ProfileRouter}
                         options={{
                             tabBarVisible: true,
                             tabBarLabel: 'Profile',
