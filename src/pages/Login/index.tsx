@@ -23,7 +23,7 @@ const Login: React.FC = () => {
                     <View style={{ padding: 10 }} />
                     <TextInput style={styles.inputs} placeholder='Senha' />
                     <View style={{ padding: 10 }} />
-                    <TouchableOpacity onPress={() => setUserSaved(true)} style={styles.submit}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => setUserSaved(true)} style={styles.submit}>
                         <Text style={styles.textSubmit}>ACESSAR SISTEMA</Text>
                     </TouchableOpacity>
                     <View style={{ padding: 10 }} />
