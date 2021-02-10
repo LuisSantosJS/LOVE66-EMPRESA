@@ -45,6 +45,52 @@ const styles = StyleSheet.create({
         width: width * 0.07,
         height: width * 0.07,
 
+    },
+    itemView: {
+        width: width,
+        height: width * 0.44,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    item: {
+        width: width - (width * 0.05 ),
+        height: width * 0.40- width * 0.06,
+        backgroundColor: '#e5e5e5',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    moto: {
+        width: width * 0.14,
+        height: width * 0.14,
+    },
+    circleItem: {
+        width: width * 0.2,
+        height: width * 0.2,
+        borderRadius: (width * 0.2) / 2,
+        borderWidth: 1,
+        borderColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    bodyItem: {
+        width: width * 0.7,
+        height: '100%',
+        alignItems: 'flex-start',
+        paddingHorizontal: width * 0.04,
+        justifyContent: 'space-around'
+    },
+    borderItemAlert: {
+        width: '95%',
+        height: width * 0.06,
+        backgroundColor: '#0BAA75',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    text0:{
+        color:'#707070',
+        fontSize: width*0.04,
+        
     }
 });
 export default styles;
