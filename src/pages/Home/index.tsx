@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native'
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    ActivityIndicator,
+    FlatList,
+    TextInput
+} from 'react-native'
+import Modal from 'react-native-modal';
 import Header from '../../components/Header'
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
@@ -8,7 +16,7 @@ import { useUserData } from '../../context/Auth'
 //@ts-ignore 
 import Add from '../../assets/icons/addM.png'
 import { DeliveriesProduct } from '../../types'
-import ModalAddSolicit from '../../components/ModalAddSolicit'
+
 import api from '../../service/api';
 import NotDeliveries from './NotDeliveries';
 const MotoIcon = require('../../assets/moto.png')
@@ -20,6 +28,12 @@ const Home: React.FC = () => {
     const { userData } = useUserData();
     const [data, setData] = useState<DeliveriesProduct[]>([]);
     const [inRefresh, setinRefresh] = useState<boolean>(false)
+
+
+    const [numberEntregas, setNumberEntregas] = useState<string>('1');
+    const handleNavigation = async () => {
+        return navigation.navigate('AddEntrega')
+    }
 
     useEffect(() => {
         load()
@@ -34,6 +48,7 @@ const Home: React.FC = () => {
             setLoading(false)
         }
     }
+
 
     const onRefresh = () => {
         setLoading(true)
@@ -64,20 +79,21 @@ const Home: React.FC = () => {
     }
     return (
         <>
-            <Header navigation={navigation} title='LOVE 99 - SERRANO SUSHI' />
+            <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
 
             {loading ?
                 <View style={styles.container}>
                     <ActivityIndicator color='#191919' size='large' />
                 </View> : <>
                     {
-                        loading ?
+                        data.length === 0 ?
                             <NotDeliveries /> :
                             <FlatList
                                 data={data}
                                 style={{ flex: 1 }}
                                 onRefresh={() => onRefresh()}
                                 refreshing={inRefresh}
+                                ListFooterComponent={() => <View style={{ padding: 40 }} />}
                                 renderItem={({ item, index }) => _renderItem(item, index)}
                                 ListHeaderComponent={() => <View style={{ padding: 10 }} />}
                                 ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
@@ -86,10 +102,44 @@ const Home: React.FC = () => {
                     }
                 </>}
 
-            <TouchableOpacity onPress={() => setIsVisibleModalAdd(true)} style={styles.floats}>
+            <TouchableOpacity onPress={handleNavigation} style={styles.floats}>
                 <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.add} source={Add} />
             </TouchableOpacity>
-            <ModalAddSolicit isOpen={isVisibleModalAdd} onSwipeComplete={setIsVisibleModalAdd} navigation={navigation} />
+            <Modal
+                swipeDirection="down"
+
+                customBackdrop={<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', padding: 0 }} />}
+                onSwipeComplete={() => setIsVisibleModalAdd(false)}
+                isVisible={isVisibleModalAdd}>
+                <View style={styles.modal}>
+                    <View style={styles.modalView}>
+                        <View style={styles.headerModal}>
+                            <Text style={styles.textsmodal}>NOVA SOLICITAÇÃO</Text>
+                        </View>
+                        <View style={styles.utilView}>
+                            <Text style={styles.titleModal}>
+                                Antes de começar digite
+                                quantas entregas você deseja?
+                            </Text>
+                            <Text style={styles.titleDesc}>
+                                (caso seja apenas uma digite 1)
+                            </Text>
+                            <View style={{ padding: 10 }} />
+                            <TextInput
+                                placeholder='Número de entregas'
+                                style={styles.input}
+                                keyboardType='number-pad'
+                                value={String(numberEntregas)}
+                                onChangeText={(e) => setNumberEntregas(e)}
+                            />
+                            <View style={{ padding: 10 }} />
+                            <TouchableOpacity onPress={handleNavigation} activeOpacity={0.7} style={styles.submit}>
+                                <Text style={styles.textSubmit}>Próximo</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </>
     )
 }

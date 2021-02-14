@@ -12,15 +12,17 @@ import Suporte from '../../assets/supp.png'
 //@ts-ignore
 import Sair from '../../assets/sair.png'
 import FastImage from 'react-native-fast-image'
+import {useUserData} from '../../context/Auth'
 
 const Profile: React.FC = () => {
     const navigation = useNavigation();
+    const {userData} = useUserData()
     return (
         <>
-            <Header title='LOVE 99 - SERRANO SUSHI' navigation={navigation} />
+            <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
             <View style={styles.container}>
                 <View style={{ padding: 10 }} />
-                <Text style={styles.text}>Olá, SERRANO SUSHI</Text>
+                <Text style={styles.text}>Olá, {userData.name_companies}</Text>
                 <View style={{ padding: 10 }} />
                 <TouchableOpacity activeOpacity={0.7} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Agenda} />

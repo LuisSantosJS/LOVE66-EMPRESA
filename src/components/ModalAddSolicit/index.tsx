@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-native-modal';
 
 import styles from './styles';
@@ -11,6 +11,19 @@ interface Props {
 }
 
 const ModalAddSolicit: React.FC<Props> = ({ isOpen, onSwipeComplete, navigation }) => {
+    const [numberEntregas, setNumberEntregas] = useState<string>('1');
+    const handleNavigation = async () => {
+        if (Number(numberEntregas) < 1) {
+            return
+        }
+        await Promise.resolve(onSwipeComplete(false));
+
+
+        return navigation.navigate('AddEntrega', { numberEntregas: numberEntregas })
+
+
+    }
+
     return (
         <>
             <Modal
@@ -32,12 +45,15 @@ const ModalAddSolicit: React.FC<Props> = ({ isOpen, onSwipeComplete, navigation 
                                 (caso seja apenas uma digite 1)
                             </Text>
                             <View style={{ padding: 10 }} />
-                            <TextInput placeholder='Número de entregas' style={styles.input} />
+                            <TextInput
+                                placeholder='Número de entregas'
+                                style={styles.input}
+                                keyboardType='number-pad'
+                                value={String(numberEntregas)}
+                                onChangeText={(e) => setNumberEntregas(e)}
+                            />
                             <View style={{ padding: 10 }} />
-                            <TouchableOpacity onPress={() => {
-                                onSwipeComplete(false)
-                                navigation.navigate('AddEntrega')
-                            }} activeOpacity={0.7} style={styles.submit}>
+                            <TouchableOpacity onPress={handleNavigation} activeOpacity={0.7} style={styles.submit}>
                                 <Text style={styles.textSubmit}>Próximo</Text>
                             </TouchableOpacity>
 

@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     inptusd: {
         width: '100%',
         height: width * 0.13,
+        paddingHorizontal: width * 0.03,
         backgroundColor: '#e5e5e5'
     },
     rowsds: {
@@ -76,20 +77,98 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         height: width * 0.14,
         backgroundColor: '#FF032A',
-        borderRadius: width*0.08,
-        alignItems:'center',
-        justifyContent:'center'
+        borderRadius: width * 0.08,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    textsubmit:{
-        color:'white',
-        fontSize: width*0.045
+    submit0: {
+        width: width * 0.7,
+        height: width * 0.14,
+        backgroundColor: '#FF032A',
+        borderRadius: width * 0.08,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    textTerm:{
-        color:'#707070',
-        fontSize: width*0.04,
-        width:'70%',
-        textAlign:'center',
+    textsubmit: {
+        color: 'white',
+        fontSize: width * 0.045
+    },
+    textsubmit0: {
+        color: 'white',
+        fontSize: width * 0.04
+    },
+    textTerm: {
+        color: '#707070',
+        fontSize: width * 0.04,
+        width: '70%',
+        textAlign: 'center',
         padding: 5
+    },
+    center: {
+        width: width,
+        alignItems: 'center'
+    },
+    floats: {
+        width: width * 0.15,
+        height: width * 0.15,
+        borderRadius: (width * 0.15) / 2,
+        backgroundColor: '#FF032A',
+        left: width - (width * 0.2),
+        position: 'absolute',
+        top: height - (width * 0.45 - getStatusBarHeight(true)),
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowOffset: { width: 10, height: 10, },
+        shadowColor: 'rgba(0,0,0,0.7)',
+        shadowOpacity: 4.0,
+        elevation: 200
+    },
+    add: {
+        width: width * 0.07,
+        height: width * 0.07,
+
+    },
+    searchView: {
+
+        width: width * 0.95,
+        height: width * 0.16,
+        backgroundColor: 'white',
+        elevation: 4000,
+        borderRadius: width * 0.04,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around'
+    },
+    searcIcon: {
+        width: width * 0.08,
+        height: width * 0.08,
+    },
+    seartText: {
+        width: '80%',
+        height: '100%'
+    },
+    viewItemSe: {
+        width: '90%',
+        fontSize: width * 0.045,
+        color: '#707070'
+    },
+    viewUF: {
+        width: width,
+        height: height*3,
+        backgroundColor: 'white',
+        alignItems: 'center'
+    },
+    viewUFItem: {
+        width: width * 0.9,
+        height: width * 0.14,
+        alignItems:'flex-start',
+        justifyContent:'center',
+        paddingHorizontal: width*0.04,
+        backgroundColor: '#e5e5e5'
+    },
+    textSigla:{
+        color:'#707070',
+        fontSize: width*0.05
     }
 });
 export default styles;
