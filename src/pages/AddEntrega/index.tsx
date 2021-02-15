@@ -74,8 +74,7 @@ const AddEntrega: React.FC<Props> = () => {
     const navigation = useNavigation()
     const [indexDeleteItem, setIndexDeleteItem] = useState<number>(0)
     const [indexUFItem, setIndexUFItem] = useState<number>(0)
-    const [features, setFeatures] = useState<Features[]>([]);
-    const { userData } = useUserData()
+    const { userData } = useUserData();
 
     const sheetRef = React.useRef<any>(null);
     const API = axios.create({
@@ -167,7 +166,7 @@ const AddEntrega: React.FC<Props> = () => {
 
     const onUF = (value: string) => {
         const newUF = produce(entregas, draftState => {
-            draftState[indexDeleteItem].UF = value;
+            draftState[indexUFItem].UF = value;
         })
         setEntregas(newUF)
         sheetRef.current.snapTo(0)
@@ -363,6 +362,7 @@ const AddEntrega: React.FC<Props> = () => {
                             <Text style={styles.text}>UF</Text>
                             <View style={{ padding: 5 }} />
                             <TouchableOpacity onPress={() => {
+
                                 setIndexUFItem(index)
                                 sheetRef.current.snapTo(1)
                             }}>
@@ -389,7 +389,7 @@ const AddEntrega: React.FC<Props> = () => {
 
                     <TextInput
                         style={styles.inptusd}
-                        placeholder='Cidade'
+                        placeholder='Cidade, bairro'
                         value={entregas[index].city}
                         onChangeText={(e) => onCityEntregas(e, index)}
                     />

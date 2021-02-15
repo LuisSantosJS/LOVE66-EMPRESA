@@ -5,17 +5,20 @@ import styles from './styles'
 import FastImage from 'react-native-fast-image'
 //@ts-ignore
 import IconInfo from '../../assets/icons/info.png'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 interface Props {
     title: string;
     navigation: any;
 }
-const Header: React.FC<Props> = ({ title }) => {
+const Header: React.FC<Props> = ({ title, navigation }) => {
     return (
         <>
             <View style={{ height: getStatusBarHeight(true), width: '100%', backgroundColor: '#FF032A' }} />
             <View style={styles.header}>
                 <Text style={styles.text}>{title}</Text>
-                <FastImage resizeMode={FastImage.resizeMode.contain} source={IconInfo} style={styles.info} />
+                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Suporte')}>
+                    <FastImage resizeMode={FastImage.resizeMode.contain} source={IconInfo} style={styles.info} />
+                </TouchableOpacity>
             </View>
         </>
     )

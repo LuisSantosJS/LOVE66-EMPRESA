@@ -5,10 +5,12 @@ import {
     TouchableOpacity,
     ActivityIndicator,
     FlatList,
+    Linking,
     TextInput
 } from 'react-native'
 import Modal from 'react-native-modal';
 import Header from '../../components/Header'
+import produce from "immer"
 import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import styles from './styles'
@@ -17,8 +19,10 @@ import { useUserData } from '../../context/Auth'
 import Add from '../../assets/icons/addM.png'
 import { DeliveriesProduct } from '../../types'
 
-import api from '../../service/api';
+import api, { URL } from '../../service/api';
+import io from 'socket.io-client'
 import NotDeliveries from './NotDeliveries';
+import { RectButton } from 'react-native-gesture-handler';
 const MotoIcon = require('../../assets/moto.png')
 
 const Home: React.FC = () => {
@@ -30,6 +34,9 @@ const Home: React.FC = () => {
     const [inRefresh, setinRefresh] = useState<boolean>(false)
 
 
+    const socket = io(URL)
+
+
     const [numberEntregas, setNumberEntregas] = useState<string>('1');
     const handleNavigation = async () => {
         return navigation.navigate('AddEntrega')
@@ -37,8 +44,40 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         load()
+        socket.on(`DELIVERIES:${userData.id}`, (res: DeliveriesProduct[]) => {
+            const newValue = res.concat(data)
+            setData(newValue)
+        })
     }, [])
 
+    // useEffect(() => {
+    //     loadss()
+    // }, [])
+
+    // const loadss = () => {
+    //     RNGooglePlaces.openAutocompleteModal()
+    //         .then((place) => {
+    //             console.log(place);
+    //         })
+    //         .catch(error => console.log(error.message));
+    // }
+
+    const onLoadDeliverMan = (id: string) => {
+        socket.on(`DELIVERIESMAN:${id}`, (res: DeliveriesProduct) => {
+            const nextState = produce(data, draftState => {
+                draftState.map((ress, index) => {
+                    if (ress.id === id) {
+                        draftState[index] = res;
+                    }
+                })
+            })
+            setData(nextState)
+        })
+    }
+
+    const open = (address: string) =>{
+        Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${String(address).replace(' ', '%20')}`);
+    }
     const load = async () => {
         try {
             const res = await api.get(`/api/deliveries/company/${userData.id}`);
@@ -58,7 +97,7 @@ const Home: React.FC = () => {
     const _renderItem = (item: DeliveriesProduct, index: number) => {
         return (
             <>
-                <View style={styles.itemView}>
+                <RectButton onPress={()=> open(item.address_client_product)} style={styles.itemView}>
                     <View style={styles.item}>
                         <View style={styles.circleItem}>
                             <FastImage style={styles.moto} source={MotoIcon} />
@@ -73,7 +112,7 @@ const Home: React.FC = () => {
                     <View style={styles.borderItemAlert}>
                         <Text>{String(item.status_product).toUpperCase()}</Text>
                     </View>
-                </View>
+                </RectButton>
             </>
         )
     }
@@ -88,23 +127,27 @@ const Home: React.FC = () => {
                     {
                         data.length === 0 ?
                             <NotDeliveries /> :
-                            <FlatList
-                                data={data}
-                                style={{ flex: 1 }}
-                                onRefresh={() => onRefresh()}
-                                refreshing={inRefresh}
-                                ListFooterComponent={() => <View style={{ padding: 40 }} />}
-                                renderItem={({ item, index }) => _renderItem(item, index)}
-                                ListHeaderComponent={() => <View style={{ padding: 10 }} />}
-                                ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
-                                keyExtractor={(item) => String(item.id)}
-                            />
+                            <>
+
+                                <FlatList
+                                    data={data}
+                                    style={{ flex: 1 }}
+                                    onRefresh={() => onRefresh()}
+                                    refreshing={inRefresh}
+                                    ListFooterComponent={() => <View style={{ padding: 40 }} />}
+                                    renderItem={({ item, index }) => _renderItem(item, index)}
+                                    ListHeaderComponent={() => <View style={{ padding: 10 }} />}
+                                    ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
+                                    keyExtractor={(item) => String(item.id)}
+                                />
+                            </>
                     }
                 </>}
 
             <TouchableOpacity onPress={handleNavigation} style={styles.floats}>
                 <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.add} source={Add} />
             </TouchableOpacity>
+
             <Modal
                 swipeDirection="down"
 

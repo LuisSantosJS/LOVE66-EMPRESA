@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 const { Navigator, Screen } = createStackNavigator();
 import Home from '../../pages/Home'
 import AddEntrega from '../../pages/AddEntrega';
+import Suporte from '../../pages/Suporte';
 import EntregadorEncontrado from '../../pages/EntregadorEncontrado';
 const HomeRouter: React.FC = () => {
     return (
@@ -11,6 +12,7 @@ const HomeRouter: React.FC = () => {
             <NavigationContainer independent>
                 <Navigator screenOptions={{ headerShown: false }}>
                     <Screen name="Home" component={Home} />
+                    
                     <Screen name="AddEntrega" options={{
                         headerShown: true,
                         headerBackTitleStyle: { color: 'white' },
@@ -18,6 +20,7 @@ const HomeRouter: React.FC = () => {
                         title: 'Nova Solicitação',
                         headerStyle: { backgroundColor: '#FF032A' }
                     }} component={AddEntrega} />
+
                     <Screen name="EntregadorEncontrado" options={{
                         headerShown: true,
                         headerBackTitleStyle: { color: 'white' },
@@ -25,6 +28,14 @@ const HomeRouter: React.FC = () => {
                         title: 'Sucesso',
                         headerStyle: { backgroundColor: '#FF032A' }
                     }} component={EntregadorEncontrado} />
+
+                    <Screen name="Suporte" options={{
+                        headerShown: true,
+                        headerBackTitleStyle: { color: 'white' },
+                        headerTintColor: 'white',
+                        headerStyle: { backgroundColor: '#FF032A' },
+                        title: 'Suporte'
+                    }} component={Suporte} />
                 </Navigator>
             </NavigationContainer>
         </>
