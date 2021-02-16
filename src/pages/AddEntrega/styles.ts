@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
         height: '100%'
     },
     viewItemSe: {
-        width: '90%',
+        width: width*0.9,
         fontSize: width * 0.045,
         color: '#707070'
     },

@@ -18,6 +18,8 @@ import FastImage from 'react-native-fast-image';
 import Dialog from "react-native-dialog";
 import Toast from 'react-native-simple-toast'
 //@ts-ignore
+import { mask } from 'remask'
+//@ts-ignore
 import BaixoSeta from '../../assets/icons/baixo.png'
 //@ts-ignore
 import CimaSeta from '../../assets/icons/cima.png'
@@ -54,10 +56,10 @@ interface Entregas {
     name_client: string | undefined;
     change: string | undefined;
     number: string | undefined;
-    street: string | undefined;
-    UF: string | undefined;
-    city: string | undefined;
+    address_client: string | undefined;
     payment_method: string | undefined;
+    lat: string | undefined;
+    long: string | undefined;
     price: string | undefined;
     product: string | undefined;
 }
@@ -74,6 +76,7 @@ const AddEntrega: React.FC<Props> = () => {
     const navigation = useNavigation()
     const [indexDeleteItem, setIndexDeleteItem] = useState<number>(0)
     const [indexUFItem, setIndexUFItem] = useState<number>(0)
+    const [indexLocationItem, setIndexLocationItem] = useState<number | null>(null)
     const { userData } = useUserData();
 
     const sheetRef = React.useRef<any>(null);
@@ -90,9 +93,9 @@ const AddEntrega: React.FC<Props> = () => {
         name_client: '',
         change: '',
         number: '',
-        street: '',
-        UF: '',
-        city: '',
+        address_client: '',
+        lat: '',
+        long: '',
         payment_method: '',
         price: '',
         product: '',
@@ -102,34 +105,35 @@ const AddEntrega: React.FC<Props> = () => {
     }]);
     const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(false)
+    const [features, setFeatures] = useState<Features[]>([])
 
 
 
-    const renderUF = () => (
-        <View style={styles.viewUF}>
-            <FlatList
-                style={{ flex: 1 }}
-                data={UFDATA}
-                showsVerticalScrollIndicator={false}
-                ListHeaderComponent={() => <View style={{ padding: 15 }} />}
-                ListFooterComponent={() => <View style={{ padding: 20 }} />}
-                ItemSeparatorComponent={() => <View style={{ padding: 7 }} />}
-                keyExtractor={(item) => String(item.nome)}
-                renderItem={({ item, index }) => RenderItemUF(item, index)}
-            />
-        </View>
-    );
+    // const renderUF = () => (
+    //     <View style={styles.viewUF}>
+    //         <FlatList
+    //             style={{ flex: 1 }}
+    //             data={UFDATA}
+    //             showsVerticalScrollIndicator={false}
+    //             ListHeaderComponent={() => <View style={{ padding: 15 }} />}
+    //             ListFooterComponent={() => <View style={{ padding: 20 }} />}
+    //             ItemSeparatorComponent={() => <View style={{ padding: 7 }} />}
+    //             keyExtractor={(item) => String(item.nome)}
+    //             renderItem={({ item, index }) => RenderItemUF(item, index)}
+    //         />
+    //     </View>
+    // );
 
 
-    const RenderItemUF = (item: UF, index: number) => {
-        return (
-            <>
-                <TouchableOpacity onPress={() => onUF(item.sigla)} style={styles.viewUFItem}>
-                    <Text style={styles.textSigla}>{item.nome} / {item.sigla}</Text>
-                </TouchableOpacity>
-            </>
-        )
-    }
+    // const RenderItemUF = (item: UF, index: number) => {
+    //     return (
+    //         <>
+    //             <TouchableOpacity onPress={() => onUF(item.sigla)} style={styles.viewUFItem}>
+    //                 <Text style={styles.textSigla}>{item.nome} / {item.sigla}</Text>
+    //             </TouchableOpacity>
+    //         </>
+    //     )
+    // }
     // const load = () => {
     //     const initEntregas = produce(entregas, draftState => {
     //         var i = 0;
@@ -164,13 +168,13 @@ const AddEntrega: React.FC<Props> = () => {
         setEntregas(newName)
     }
 
-    const onUF = (value: string) => {
-        const newUF = produce(entregas, draftState => {
-            draftState[indexUFItem].UF = value;
-        })
-        setEntregas(newUF)
-        sheetRef.current.snapTo(0)
-    }
+    // const onUF = (value: string) => {
+    //     const newUF = produce(entregas, draftState => {
+    //         draftState[indexUFItem].UF = value;
+    //     })
+    //     setEntregas(newUF)
+    //     sheetRef.current.snapTo(0)
+    // }
 
     const onNumberEntregas = (value: string, index: number) => {
         const newNumber = produce(entregas, draftState => {
@@ -195,30 +199,30 @@ const AddEntrega: React.FC<Props> = () => {
 
     const onTrocoEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].change = value;
+            draftState[index].change = mask(value, ['99,99']);
         })
         setEntregas(newName)
     }
 
     const onPriceEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].price = value;
+            draftState[index].price = mask(value, ['99,99']);
         })
         setEntregas(newName)
     }
 
-    const onStreetEntregas = (value: string, index: number) => {
-        const newstreet = produce(entregas, draftState => {
-            draftState[index].street = value;
-        })
-        setEntregas(newstreet)
-    }
-    const onCityEntregas = (value: string, index: number) => {
-        const newCity = produce(entregas, draftState => {
-            draftState[index].city = value;
-        })
-        setEntregas(newCity)
-    }
+    // const onStreetEntregas = (value: string, index: number) => {
+    //     const newstreet = produce(entregas, draftState => {
+    //         draftState[index].street = value;
+    //     })
+    //     setEntregas(newstreet)
+    // }
+    // const onCityEntregas = (value: string, index: number) => {
+    //     const newCity = produce(entregas, draftState => {
+    //         draftState[index].city = value;
+    //     })
+    //     setEntregas(newCity)
+    // }
     const addEntrega = () => {
         const newOpenEntregas = produce(openEntregas, draftState => {
             draftState.map((res, index) => {
@@ -234,9 +238,9 @@ const AddEntrega: React.FC<Props> = () => {
                 name_client: '',
                 change: '',
                 number: '',
-                street: '',
-                UF: '',
-                city: '',
+                address_client: '',
+                lat: '',
+                long: '',
                 payment_method: '',
                 price: '',
                 product: '',
@@ -281,17 +285,28 @@ const AddEntrega: React.FC<Props> = () => {
 
         const val: any = entregas.map(res => {
             return {
-                address_client: `${res.street}, ${res.number}, ${res.city} ${res.UF}`,
+                address_client: `${res.address_client}, ${res.number}`,
                 change: res.change,
-                lat: "0",
-                long: "0",
+                lat: res.lat,
+                long: res.long,
                 name_client: res.name_client,
                 payment_method: res.payment_method,
                 price: res.price,
                 product: res.product
             }
         })
+
         const value: EntregasFinal[] = val;
+        var isNotFailt = false;
+        value.map(ess => {
+            if ((String(ess.address_client).length === 0) || (String(ess.change).length === 0) || (String(ess.lat).length === 0) || (String(ess.long).length === 0) || (String(ess.name_client).length === 0) || (String(ess.payment_method).length === 0) || (String(ess.price).length === 0) || (String(ess.product).length === 0)) {
+                return isNotFailt = true
+
+            }
+        })
+        if (isNotFailt) {
+            return Toast.showWithGravity('Preencha todos os campos!', Toast.LONG, Toast.TOP)
+        }
         api.post('/api/deliveries', {
             delivermanID: "",
             companiesID: userData.id,
@@ -312,17 +327,30 @@ const AddEntrega: React.FC<Props> = () => {
         })
 
     }
-    // const _RenderSearch = (item: Features, index: number) => {
-    //     return (
-    //         <>
-    //             <View style={styles.center}>
-    //                 <View style={{ padding: 5 }} />
-    //                 <Text style={styles.viewItemSe}>{item.place_name}</Text>
-    //                 <View style={{ padding: 5 }} />
-    //             </View>
-    //         </>
-    //     )
-    // }
+    const _RenderSearch = (item: Features, index: number) => {
+        return (
+            <>
+                <View style={styles.center}>
+                    <View style={{ padding: 5 }} />
+                    <TouchableOpacity onPress={() => {
+                        const newValue = produce(entregas, draftState => {
+                            var lat: string = String(item.center[0]);
+                            var long: string = String(item.center[1]);
+                            draftState[Number(indexLocationItem)].lat = lat
+                            draftState[Number(indexLocationItem)].long = long
+                            draftState[Number(indexLocationItem)].address_client = item.place_name
+
+                        })
+                        setEntregas(newValue)
+                        setIndexLocationItem(null)
+                    }}>
+                        <Text style={styles.viewItemSe}>{item.place_name}</Text>
+                    </TouchableOpacity>
+                    <View style={{ padding: 5 }} />
+                </View>
+            </>
+        )
+    }
 
     const _renderItem = (item: Entregas, index: number) => {
         return (
@@ -349,16 +377,17 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Endereço de destino</Text>
                     <View style={{ padding: 5 }} />
-
-                    <TextInput
-                        style={styles.inptusd}
-                        placeholder='Nome da rua'
-                        value={entregas[index].street}
-                        onChangeText={(e) => onStreetEntregas(e, index)}
-                    />
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
+                        <TextInput
+                            style={styles.inptusd}
+                            placeholder='Endereço'
+                            editable={false}
+                            value={entregas[index].address_client}
+                        />
+                    </TouchableOpacity>
                     <View style={{ padding: 5 }} />
-                    <View style={styles.rowsds}>
-                        <View style={styles.medate}>
+
+                    {/* <View style={styles.medate}>
                             <Text style={styles.text}>UF</Text>
                             <View style={{ padding: 5 }} />
                             <TouchableOpacity onPress={() => {
@@ -373,26 +402,26 @@ const AddEntrega: React.FC<Props> = () => {
                                     editable={false}
                                 />
                             </TouchableOpacity>
-                        </View>
-                        <View style={styles.medate}>
-                            <Text style={styles.text}>Número</Text>
-                            <View style={{ padding: 5 }} />
-                            <TextInput
-                                style={styles.inptusd}
-                                value={entregas[index].number}
-                                keyboardType='number-pad'
-                                onChangeText={(e) => onNumberEntregas(e, index)}
-                            />
-                        </View>
-                    </View>
-                    <View style={{ padding: 30 }} />
+                        </View> */}
 
+                    <Text style={styles.text}>Número</Text>
+                    <View style={{ padding: 5 }} />
+                    <TextInput
+                        style={styles.inptusd}
+                        value={entregas[index].number}
+                        keyboardType='number-pad'
+                        onChangeText={(e) => onNumberEntregas(e, index)}
+                    />
+
+
+                    <View style={{ padding: 7 }} />
+                    {/* 
                     <TextInput
                         style={styles.inptusd}
                         placeholder='Cidade, bairro'
                         value={entregas[index].city}
                         onChangeText={(e) => onCityEntregas(e, index)}
-                    />
+                    /> */}
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Produto</Text>
                     <View style={{ padding: 5 }} />
@@ -440,39 +469,39 @@ const AddEntrega: React.FC<Props> = () => {
             </View>
         )
     }
-    // const onSearch = (e: string) => {
-    //     return API.get(`http://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=pk.eyJ1IjoibHVpc3RzeCIsImEiOiJja2prcnB2dHkyM2FwMnFwZ3B6YTQ5Ym02In0.QVOoBMR87GNBpSwWS7y8QA`).then(res => {
-    //         setFeatures(res.data.features)
-    //     }).catch(err => console.log(err))
-    // }
-    // if (false) {
-    //     return (
-    //         <View style={styles.container}>
-    //             <View style={{ padding: 5 }} />
-    //             <View style={styles.searchView}>
-    //                 <Image style={styles.searcIcon} source={require('../../assets/search.png')} />
-    //                 <TextInput onChangeText={(e) => onSearch(e)} placeholder='Procure o endereço' style={styles.seartText} />
-    //             </View>
+    const onSearch = async (e: string) => {
+        return API.get(`http://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=pk.eyJ1IjoibHVpc3RzeCIsImEiOiJja2prcnB2dHkyM2FwMnFwZ3B6YTQ5Ym02In0.QVOoBMR87GNBpSwWS7y8QA`).then(res => {
+            setFeatures(res.data.features)
+        }).catch(err => console.log(err))
+    }
+    if (indexLocationItem !== null) {
+        return (
+            <View style={styles.container}>
+                <View style={{ padding: 5 }} />
+                <View style={styles.searchView}>
+                    <Image style={styles.searcIcon} source={require('../../assets/search.png')} />
+                    <TextInput onChangeText={(e) => onSearch(e)} placeholder='Procure o endereço' style={styles.seartText} />
+                </View>
 
-    //             <FlatList
-    //                 data={features}
-    //                 style={{ flex: 1 }}
-    //                 renderItem={({ item, index }) => _RenderSearch(item, index)}
-    //                 keyExtractor={(item, index) => String(index)}
-    //             />
-    //         </View>
-    //     )
-    // }
+                <FlatList
+                    data={features}
+                    style={{ flex: 1 }}
+                    renderItem={({ item, index }) => _RenderSearch(item, index)}
+                    keyExtractor={(item, index) => String(index)}
+                />
+            </View>
+        )
+    }
 
     return (
         <>
 
-            <BottomSheet
+            {/* <BottomSheet
                 ref={sheetRef}
                 snapPoints={[0, Number(height - 100)]}
                 borderRadius={10}
                 renderContent={renderUF}
-            />
+            /> */}
             <View style={styles.container}>
 
                 <FlatList
