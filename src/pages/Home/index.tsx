@@ -45,8 +45,10 @@ const Home: React.FC = () => {
     useEffect(() => {
         load()
         socket.on(`DELIVERIES:${userData.id}`, (res: DeliveriesProduct[]) => {
-            const newValue = res.concat(data)
-            setData(newValue)
+            if(res.length !== 0){
+                const newValue = res.concat(data)
+                setData(newValue)
+            }
         })
     }, [])
 
@@ -75,7 +77,7 @@ const Home: React.FC = () => {
         })
     }
 
-    const open = (address: string) =>{
+    const open = (address: string) => {
         Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${String(address).replace(' ', '%20')}`);
     }
     const load = async () => {
@@ -97,7 +99,7 @@ const Home: React.FC = () => {
     const _renderItem = (item: DeliveriesProduct, index: number) => {
         return (
             <>
-                <RectButton onPress={()=> open(item.address_client_product)} style={styles.itemView}>
+                <RectButton onPress={() => navigation.navigate('Detalhes', { deliveriesProduct: item })} style={styles.itemView}>
                     <View style={styles.item}>
                         <View style={styles.circleItem}>
                             <FastImage style={styles.moto} source={MotoIcon} />

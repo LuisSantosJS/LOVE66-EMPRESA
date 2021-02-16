@@ -13,9 +13,7 @@ import styles from './styles'
 import { UF, UFDATA } from './UF'
 //@ts-ignore
 import CarrinhoIcon from '../../assets/carrinho.png'
-import BottomSheet from 'reanimated-bottom-sheet';
 import FastImage from 'react-native-fast-image';
-import Dialog from "react-native-dialog";
 import Toast from 'react-native-simple-toast'
 //@ts-ignore
 import { mask } from 'remask'
@@ -56,6 +54,7 @@ interface Entregas {
     name_client: string | undefined;
     change: string | undefined;
     number: string | undefined;
+    street: string | undefined;
     address_client: string | undefined;
     payment_method: string | undefined;
     lat: string | undefined;
@@ -93,6 +92,7 @@ const AddEntrega: React.FC<Props> = () => {
         name_client: '',
         change: '',
         number: '',
+        street: '',
         address_client: '',
         lat: '',
         long: '',
@@ -180,7 +180,15 @@ const AddEntrega: React.FC<Props> = () => {
         const newNumber = produce(entregas, draftState => {
             draftState[index].number = value;
         })
+
         setEntregas(newNumber)
+    }
+
+    const onStreetEntregas = (value: string, index: number) => {
+        const newStreet = produce(entregas, draftState => {
+            draftState[index].street = value;
+        })
+        setEntregas(newStreet)
     }
 
     const onProdutoEntregas = (value: string, index: number) => {
@@ -238,6 +246,7 @@ const AddEntrega: React.FC<Props> = () => {
                 name_client: '',
                 change: '',
                 number: '',
+                street: '',
                 address_client: '',
                 lat: '',
                 long: '',
@@ -285,7 +294,7 @@ const AddEntrega: React.FC<Props> = () => {
 
         const val: any = entregas.map(res => {
             return {
-                address_client: `${res.address_client}, ${res.number}`,
+                address_client: `${res.street}, ${res.number}, ${res.address_client}`,
                 change: res.change,
                 lat: res.lat,
                 long: res.long,
@@ -410,18 +419,23 @@ const AddEntrega: React.FC<Props> = () => {
                         style={styles.inptusd}
                         value={entregas[index].number}
                         keyboardType='number-pad'
+                        placeholder='Insira o número'
                         onChangeText={(e) => onNumberEntregas(e, index)}
                     />
-
-
                     <View style={{ padding: 7 }} />
-                    {/* 
+
+         
+
+                    <Text style={styles.text}>Rua</Text>
+
+                    <View style={{ padding: 5 }} />
                     <TextInput
                         style={styles.inptusd}
-                        placeholder='Cidade, bairro'
-                        value={entregas[index].city}
-                        onChangeText={(e) => onCityEntregas(e, index)}
-                    /> */}
+                        placeholder='Insira a rua'
+                        value={entregas[index].street}
+                        onChangeText={(e) => onStreetEntregas(e, index)}
+                    />
+
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Produto</Text>
                     <View style={{ padding: 5 }} />

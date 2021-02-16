@@ -11,5 +11,21 @@ const styles = StyleSheet.create({
         minHeight: width,
         justifyContent: 'flex-start'
     },
+    inputs: {
+        width: width*0.85,
+        height: width*0.13,
+        paddingHorizontal: width*0.04,
+        borderWidth: 1,
+        borderColor:'#707070',
+        borderRadius: 5,
+        color:'#707070'
+
+    },
+    totle: {
+        fontSize: width * 0.05,
+        width: width*0.85,
+        color: '#707070',
+        
+    }
 });
 export default styles;
