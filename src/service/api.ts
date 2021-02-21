@@ -1,16 +1,16 @@
 import axios from 'axios';
-const URL = 'http://192.168.100.99:3333';
+axios.defaults.timeout = 10000;
+const URL = 'https://api-love66.herokuapp.com';
 const api = axios.create({
-    baseURL: URL,
-    headers: {      
-        'Access-Control-Allow-Origin': '*',       
-       'Accept':'application/json',      
-        'Content-Type':'application/json',    
-        }, 
-        validateStatus: (status) => {
-            return true;
-          },
+  baseURL: URL,
+  validateStatus: (status) => {
+    return true;
+  },
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+  },
 })
-
-export default api;
 export { URL }
+export default api;
