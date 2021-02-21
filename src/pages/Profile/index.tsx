@@ -33,17 +33,17 @@ const Profile: React.FC = () => {
             <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
             <View style={styles.container}>
                 <View style={{ padding: 10 }} />
-                <Text style={styles.text}>Olá, <Text style={{ color: '#707070', fontWeight: '700' }}>{userData.name_companies}</Text></Text>
+                <Text style={styles.text}>Olá, <Text style={{ color: '#707070', fontWeight: '700' }}>{String(userData.name_companies).toUpperCase()}</Text></Text>
                 <View style={{ padding: 10 }} />
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('DadosPessoais')} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Agenda} />
                     <Text style={styles.rowTex}>Dados pessoais</Text>
                 </TouchableOpacity>
-
+{/* 
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Politica')} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Poli} />
                     <Text style={styles.rowTex}>Politica de privacidade</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Suporte')} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Suporte} />

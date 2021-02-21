@@ -7,6 +7,9 @@ const api = axios.create({
        'Accept':'application/json',      
         'Content-Type':'application/json',    
         }, 
+        validateStatus: (status) => {
+            return true;
+          },
 })
 
 export default api;

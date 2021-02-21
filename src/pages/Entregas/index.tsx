@@ -75,21 +75,20 @@ const Entregas: React.FC = () => {
                 <View style={styles.container}>
                     <ActivityIndicator color='#191919' size='large' />
                 </View> : <>
-                    {
-                        data.length === 0 ?
-                            <NotDeliveries /> :
-                            <FlatList
-                                data={data}
-                                style={{ flex: 1 }}
-                                onRefresh={() => onRefresh()}
-                                refreshing={inRefresh}
-                                ListFooterComponent={() => <View style={{ padding: 40 }} />}
-                                renderItem={({ item, index }) => _renderItem(item, index)}
-                                ListHeaderComponent={() => <View style={{ padding: 10 }} />}
-                                ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
-                                keyExtractor={(item) => String(item.id)}
-                            />
-                    }
+
+                    <FlatList
+                        data={data}
+                        style={{ flex: 1 }}
+                        onRefresh={() => onRefresh()}
+                        ListEmptyComponent={() => <NotDeliveries />}
+                        refreshing={inRefresh}
+                        ListFooterComponent={() => <View style={{ padding: 40 }} />}
+                        renderItem={({ item, index }) => _renderItem(item, index)}
+                        ListHeaderComponent={() => <View style={{ padding: 10 }} />}
+                        ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
+                        keyExtractor={(item) => String(item.id)}
+                    />
+
                 </>}
         </>
     )

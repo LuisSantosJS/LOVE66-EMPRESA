@@ -45,7 +45,7 @@ const Home: React.FC = () => {
     useEffect(() => {
         load()
         socket.on(`DELIVERIES:${userData.id}`, (res: DeliveriesProduct[]) => {
-            if(res.length !== 0){
+            if (res.length !== 0) {
                 const newValue = res.concat(data)
                 setData(newValue)
             }
@@ -94,9 +94,15 @@ const Home: React.FC = () => {
     const onRefresh = () => {
         setLoading(true)
         load().then(() => setinRefresh(false))
-
     }
     const _renderItem = (item: DeliveriesProduct, index: number) => {
+        // if (data.length === 0) {
+        //     return (
+        //         <View style={styles.container}>
+        //             <NotDeliveries />
+        //         </View>
+        //     );
+        // }
         return (
             <>
                 <RectButton onPress={() => navigation.navigate('Detalhes', { deliveriesProduct: item })} style={styles.itemView}>
@@ -106,7 +112,7 @@ const Home: React.FC = () => {
                         </View>
                         <View style={styles.bodyItem}>
                             <Text style={[styles.text0, { fontSize: 20 }]}>REMESSA: {item.code_deliveries}</Text>
-                            <Text style={styles.text0}>Endereço: {item.address_client_product}</Text>
+                            {/* <Text style={styles.text0}>Endereço: {item.address_client_product}</Text> */}
                             <Text style={styles.text0}>Pagamento: {item.payment_method_product}</Text>
                             <Text style={styles.text0}>Preço: {item.price_product} Troco:{item.change_product}</Text>
                         </View>
@@ -125,26 +131,22 @@ const Home: React.FC = () => {
             {loading ?
                 <View style={styles.container}>
                     <ActivityIndicator color='#191919' size='large' />
-                </View> : <>
-                    {
-                        data.length === 0 ?
-                            <NotDeliveries /> :
-                            <>
+                </View> :
 
-                                <FlatList
-                                    data={data}
-                                    style={{ flex: 1 }}
-                                    onRefresh={() => onRefresh()}
-                                    refreshing={inRefresh}
-                                    ListFooterComponent={() => <View style={{ padding: 40 }} />}
-                                    renderItem={({ item, index }) => _renderItem(item, index)}
-                                    ListHeaderComponent={() => <View style={{ padding: 10 }} />}
-                                    ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
-                                    keyExtractor={(item) => String(item.id)}
-                                />
-                            </>
-                    }
-                </>}
+                <FlatList
+                    data={data}
+                    style={{ flex: 1 }}
+                    ListEmptyComponent={()=> <NotDeliveries/>}
+                    onRefresh={() => onRefresh()}
+                    refreshing={inRefresh}
+                    ListFooterComponent={() => <View style={{ padding: 40 }} />}
+                    renderItem={({ item, index }) => _renderItem(item, index)}
+                    ListHeaderComponent={() => <View style={{ padding: 10 }} />}
+                    ItemSeparatorComponent={() => <View style={{ padding: 10 }} />}
+                    keyExtractor={(item) => String(item.id)}
+                />
+
+            }
 
             <TouchableOpacity onPress={handleNavigation} style={styles.floats}>
                 <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.add} source={Add} />

@@ -386,14 +386,14 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Endereço de destino</Text>
                     <View style={{ padding: 5 }} />
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
+                    <RectButton activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
                         <TextInput
                             style={styles.inptusd}
                             placeholder='Endereço'
                             editable={false}
                             value={entregas[index].address_client}
                         />
-                    </TouchableOpacity>
+                    </RectButton>
                     <View style={{ padding: 5 }} />
 
                     {/* <View style={styles.medate}>

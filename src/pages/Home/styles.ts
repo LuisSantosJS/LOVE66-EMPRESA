@@ -33,13 +33,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF032A',
         left: width - (width * 0.2),
         position: 'absolute',
-        top: height - (width * 0.45 - getStatusBarHeight(true)),
+        top: height - (width * 0.4 + getStatusBarHeight(true)),
         alignItems: 'center',
         justifyContent: 'center',
-        shadowOffset: { width: 10, height: 10, },
-        shadowColor: 'rgba(0,0,0,0.7)',
+        shadowOffset: { width: 4, height: 4, },
+        shadowColor: 'rgba(0,0,0,0.1)',
         shadowOpacity: 4.0,
-        elevation: 2
+        elevation: 2000
     },
     add: {
         width: width * 0.07,

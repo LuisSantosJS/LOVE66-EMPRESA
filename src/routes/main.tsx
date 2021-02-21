@@ -32,7 +32,7 @@ const RouterTab: React.FC = () => {
                         style: {
                             elevation: 0,
                             shadowOpacity: 0,
-                            height: width * 0.16 + getStatusBarHeight(true),
+                            height: width * 0.13 + getStatusBarHeight(true),
                         },
                         tabStyle: {
                             flexDirection: 'column',
@@ -42,7 +42,7 @@ const RouterTab: React.FC = () => {
                         iconStyle: {
                             flex: 0,
                             width: width * 0.05,
-                            height: width * 0.055,
+                            height: width * 0.05,
                         },
                         labelStyle: {
                             fontSize: width * 0.035,

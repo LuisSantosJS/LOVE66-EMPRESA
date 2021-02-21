@@ -6,15 +6,17 @@ const height = Dimensions.get("window").height;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        width: width,
+        height: width,
         alignItems: 'center',
         justifyContent: 'center'
     },
     ops: {
-        width: '70%',
-        minHeight: '40%',
+        width: '80%',
+        minHeight: '50%',
     },
     textT: {
-        fontSize: width * 0.05,
+        fontSize: width * 0.055,
         fontWeight: 'bold',
         color: '#707070',
         textAlign: 'center'
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
         fontSize: width * 0.045,
         fontWeight: '400',
         color: '#707070',
-        width: '70%',
+        width: '80%',
         textAlign: 'center'
     },
 });

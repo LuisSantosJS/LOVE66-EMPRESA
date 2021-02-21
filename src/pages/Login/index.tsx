@@ -39,11 +39,13 @@ const Login: React.FC = () => {
         }).then(res => {
             if (res.data.message === 'error') {
                 setLoading(false)
+                console.log(res.data)
                 return Toast.showWithGravity(`${res.data.value}`, Toast.LONG, Toast.TOP)
             }
             return onFinish()
         }).catch(err => {
             setLoading(false)
+            console.log('error',err)
             return Toast.showWithGravity(`${err}`, Toast.LONG, Toast.TOP)
         })
     }
