@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF032A',
         left: width - (width * 0.2),
         position: 'absolute',
-        top: height - (width * 0.45 - getStatusBarHeight(true)),
+        top: height - (width * 0.5 - getStatusBarHeight(true)),
         alignItems: 'center',
         justifyContent: 'center',
         shadowOffset: { width: 10, height: 10, },
@@ -169,6 +169,25 @@ const styles = StyleSheet.create({
     textSigla:{
         color:'#707070',
         fontSize: width*0.05
+    },
+    modalss:{
+        width: width,
+        height: '100%',
+        backgroundColor:'white',
+        alignItems:'center',
+        justifyContent:'flex-start'
+    },
+    itemms:{
+        width: width*0.7,
+        height: width*0.14,
+        backgroundColor:'#f7f7f7',
+        alignItems:'center',
+        justifyContent:'center'
+    },
+    tsxtdtg:{
+        color:'#707070',
+        fontSize: width*0.05
     }
+
 });
 export default styles;

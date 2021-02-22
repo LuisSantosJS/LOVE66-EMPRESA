@@ -10,6 +10,11 @@ import {
     Image
 } from 'react-native';
 import styles from './styles'
+import { getStatusBarHeight } from 'react-native-status-bar-height';
+import BottomSheet from 'reanimated-bottom-sheet';
+
+//@ts-ignore
+import Add from '../../assets/add.png'
 import { UF, UFDATA } from './UF'
 //@ts-ignore
 import CarrinhoIcon from '../../assets/carrinho.png'
@@ -28,7 +33,7 @@ import api from '../../service/api';
 import axios from 'axios';
 import { useUserData, useUserSaved } from '../../context/Auth';
 
-
+const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 interface Props {
@@ -77,6 +82,7 @@ const AddEntrega: React.FC<Props> = () => {
     const [indexUFItem, setIndexUFItem] = useState<number>(0)
     const [indexLocationItem, setIndexLocationItem] = useState<number | null>(null)
     const { userData } = useUserData();
+    const [indexPayment, setIndexPayment] = useState<number>(0);
 
     const sheetRef = React.useRef<any>(null);
     const API = axios.create({
@@ -207,14 +213,14 @@ const AddEntrega: React.FC<Props> = () => {
 
     const onTrocoEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].change = mask(value, ['99,99']);
+            draftState[index].change = mask(value, ['99,999', '999,99']);
         })
         setEntregas(newName)
     }
 
     const onPriceEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].price = mask(value, ['99,99']);
+            draftState[index].price = mask(value, ['99,999', '999,99']);
         })
         setEntregas(newName)
     }
@@ -294,7 +300,7 @@ const AddEntrega: React.FC<Props> = () => {
 
         const val: any = entregas.map(res => {
             return {
-                address_client: `${res.street}, ${res.number}, ${res.address_client}`,
+                address_client: `${res.number}, ${res.address_client}, ${res.street}`,
                 change: res.change,
                 lat: res.lat,
                 long: res.long,
@@ -361,6 +367,48 @@ const AddEntrega: React.FC<Props> = () => {
         )
     }
 
+    const renderContent = () => {
+        return (
+            <>
+                <View style={styles.modalss}>
+                    <View style={{ padding: 20 }} />
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            const newName = produce(entregas, draftState => {
+                                draftState[indexPayment].payment_method = 'Dinheiro';
+                            })
+                            setEntregas(newName)
+                            sheetRef.current.snapTo(0)
+                        }}
+
+                        activeOpacity={0.7} style={styles.itemms}>
+                        <Text style={styles.tsxtdtg}>Dinheiro</Text>
+                    </TouchableOpacity>
+
+
+                    <View style={{ padding: 10 }} />
+
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            const newName = produce(entregas, draftState => {
+                                draftState[indexPayment].payment_method = 'Máquina Cartão';
+                            })
+                            setEntregas(newName)
+                            sheetRef.current.snapTo(0)
+                        }}
+
+                        activeOpacity={0.7} style={styles.itemms}>
+                        <Text style={styles.tsxtdtg}>Máquina Cartão</Text>
+                    </TouchableOpacity>
+                    <View style={{ padding: 10 }} />
+                    <Text style={{ color: '#707070', fontSize: width * 0.04 }} >Selecione uma opção</Text>
+                </View>
+            </>
+        )
+    }
+
     const _renderItem = (item: Entregas, index: number) => {
         return (
             <View style={styles.center}>
@@ -386,14 +434,14 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Endereço de destino</Text>
                     <View style={{ padding: 5 }} />
-                    <RectButton activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
                         <TextInput
                             style={styles.inptusd}
                             placeholder='Endereço'
                             editable={false}
                             value={entregas[index].address_client}
                         />
-                    </RectButton>
+                    </TouchableOpacity>
                     <View style={{ padding: 5 }} />
 
                     {/* <View style={styles.medate}>
@@ -424,14 +472,14 @@ const AddEntrega: React.FC<Props> = () => {
                     />
                     <View style={{ padding: 7 }} />
 
-         
 
-                    <Text style={styles.text}>Rua</Text>
+
+                    <Text style={styles.text}>Referência</Text>
 
                     <View style={{ padding: 5 }} />
                     <TextInput
                         style={styles.inptusd}
-                        placeholder='Insira a rua'
+                        placeholder='Insira uma referência'
                         value={entregas[index].street}
                         onChangeText={(e) => onStreetEntregas(e, index)}
                     />
@@ -448,13 +496,19 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Método de pagamento</Text>
                     <View style={{ padding: 5 }} />
-                    <TextInput
-                        style={styles.inptusd}
-                        placeholder='Método de Pagamento'
-                        value={entregas[index].payment_method}
-                        onChangeText={(e) => onMetodoEntregas(e, index)}
+                    <TouchableOpacity activeOpacity={0.7} onPress={() => {
+                        setIndexPayment(index)
+                        sheetRef.current.snapTo(1)
+                    }}>
+                        <TextInput
+                            style={styles.inptusd}
+                            placeholder='Método de Pagamento'
+                            editable={false}
+                            value={entregas[index].payment_method}
+                            onChangeText={(e) => onMetodoEntregas(e, index)}
 
-                    />
+                        />
+                    </TouchableOpacity>
                     <View style={{ padding: 7 }} />
                     <View style={styles.rowsds}>
                         <View style={styles.medate}>
@@ -527,18 +581,8 @@ const AddEntrega: React.FC<Props> = () => {
                     ListHeaderComponent={() => <View style={styles.center}><Text style={styles.title}>Preencha os dados de entrega</Text></View>}
                     ListFooterComponent={() => <>
                         <View style={styles.center}>
-                            <View style={{ padding: 20 }} />
-                            <TouchableOpacity onPress={() => addEntrega()} activeOpacity={0.7} style={styles.submit0}>
-                                <Text style={styles.textsubmit0}>
-                                    ADICIONAR OUTRA ENTREGA
-                                </Text>
-                            </TouchableOpacity>
                             <View style={{ padding: 30 }} />
-                            <Text style={styles.textTerm}>
-                                Ao solicitar o entregador confirmo todos os
-                        <Text style={{ color: '#FF032A' }}> termos </Text>
-                         do aplicativo.
-                        </Text>
+
                             <TouchableOpacity onPress={() => submit()} activeOpacity={0.7} style={styles.submit}>
                                 <Text style={styles.textsubmit}>
                                     SOLICITAR ENTREGADOR
@@ -563,7 +607,16 @@ const AddEntrega: React.FC<Props> = () => {
             </Dialog.Container> */}
 
 
-
+            <TouchableOpacity onPress={addEntrega} style={styles.floats}>
+                <FastImage resizeMode={FastImage.resizeMode.contain} style={styles.add} source={Add} />
+            </TouchableOpacity>
+            <BottomSheet
+                ref={sheetRef}
+                snapPoints={[0, '85%']}
+                borderRadius={30}
+                enabledGestureInteraction={false}
+                renderContent={renderContent}
+            />
 
         </>
     )

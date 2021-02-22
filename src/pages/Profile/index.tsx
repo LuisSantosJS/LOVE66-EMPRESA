@@ -44,11 +44,11 @@ const Profile: React.FC = () => {
                     <FastImage style={styles.agenda} source={Poli} />
                     <Text style={styles.rowTex}>Politica de privacidade</Text>
                 </TouchableOpacity> */}
-
+{/* 
                 <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Suporte')} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Suporte} />
                     <Text style={styles.rowTex}>Suporte</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <TouchableOpacity activeOpacity={0.7} onPress={() => setOpenDialog(true)} style={[styles.rows0, { width: '90%' }]}>
                     <FastImage style={styles.agenda} source={Sair} />

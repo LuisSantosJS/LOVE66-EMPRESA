@@ -81,6 +81,7 @@ const Login: React.FC = () => {
                     <TextInput
                         style={styles.inputs}
                         placeholder='CNPJ'
+                        keyboardType='number-pad'
                         value={CNPJ}
                         onChangeText={(e) => onCNPJ(e)}
                     />

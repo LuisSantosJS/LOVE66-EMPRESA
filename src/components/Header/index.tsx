@@ -16,9 +16,9 @@ const Header: React.FC<Props> = ({ title, navigation }) => {
             <View style={{ height: getStatusBarHeight(true), width: '100%', backgroundColor: '#FF032A' }} />
             <View style={styles.header}>
                 <Text style={styles.text}>{title}</Text>
-                <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Suporte')}>
+                {/* <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('Suporte')}>
                     <FastImage resizeMode={FastImage.resizeMode.contain} source={IconInfo} style={styles.info} />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </>
     )
