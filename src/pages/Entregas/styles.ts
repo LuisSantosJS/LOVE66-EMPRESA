@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     item: {
-        width: width - (width * 0.05 ),
-        height: width * 0.40- width * 0.06,
+        width: width - (width * 0.05),
+        height: width * 0.5 - width * 0.06,
         backgroundColor: '#e5e5e5',
         flexDirection: 'row',
         alignItems: 'center',
@@ -84,13 +84,13 @@ const styles = StyleSheet.create({
         width: '95%',
         height: width * 0.06,
         backgroundColor: '#0BAA75',
-        alignItems:'center',
-        justifyContent:'center'
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    text0:{
-        color:'#707070',
-        fontSize: width*0.04,
-        
+    text0: {
+        color: '#707070',
+        fontSize: width * 0.04,
+
     },
     modal: {
         flex: 1,
@@ -147,9 +147,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF032A',
         borderRadius: width * 0.05
     },
-    textSubmit:{
-        color:'white',
-        fontSize: width*0.045,
+    textSubmit: {
+        color: 'white',
+        fontSize: width * 0.045,
         fontWeight: '400'
     }
 

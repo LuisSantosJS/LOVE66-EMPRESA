@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles'
-import { View, ScrollView, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, ScrollView, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //@ts-ignore
 import BackImageHeader from '../../assets/headerfundo.png'
@@ -45,7 +45,7 @@ const Login: React.FC = () => {
             return onFinish()
         }).catch(err => {
             setLoading(false)
-            console.log('error',err)
+            console.log('error', err)
             return Toast.showWithGravity(`${err}`, Toast.LONG, Toast.TOP)
         })
     }
@@ -95,7 +95,8 @@ const Login: React.FC = () => {
                     />
                     <View style={{ padding: 10 }} />
                     <TouchableOpacity activeOpacity={0.7} onPress={onSubmit} style={styles.submit}>
-                        <Text style={styles.textSubmit}>ACESSAR SISTEMA</Text>
+                        {loading ? <ActivityIndicator size='large' color='white' /> :
+                            <Text style={styles.textSubmit}>ACESSAR SISTEMA</Text>}
                     </TouchableOpacity>
                     <View style={{ padding: 10 }} />
                 </View>

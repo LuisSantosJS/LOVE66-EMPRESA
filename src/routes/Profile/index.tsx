@@ -11,7 +11,9 @@ const ProfileRouter: React.FC = () => {
         <>
             <NavigationContainer independent>
                 <Navigator screenOptions={{ headerShown: false }}>
-                    <Screen name="Profile" component={Profile} />
+                    <Screen name="Profile" options={{
+                        title:'Perfil'
+                    }} component={Profile} />
                     
                     <Screen name="Politica" options={{
                         headerShown: true,

@@ -87,7 +87,7 @@ const RouterTab: React.FC = () => {
                         component={ProfileRouter}
                         options={{
                             tabBarVisible: true,
-                            tabBarLabel: 'Profile',
+                            tabBarLabel: 'Perfil',
                             tabBarIcon: ({ color, size, focused }) => {
                                 return (
                                     <Image source={ProfileIcon} style={{ height: size, width: size }} resizeMode='contain' />
