@@ -65,7 +65,33 @@ const Detalhes: React.FC<Props> = ({ route: { params: { deliveriesProduct } } })
                     <Text style={styles.titelss}>Endereço</Text>
                     <View style={{ padding: 5 }} />
                     <Text style={styles.titelsss}>{deliveriesProduct.address_client_product}</Text>
+                    <View style={{ padding: 10 }} />
 
+                    <Text style={styles.titelss}>Nome do Cliente</Text>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.titelsss}>{deliveriesProduct.name_client_product}</Text>
+                    <View style={{ padding: 10 }} />
+
+
+                    <Text style={styles.titelss}>Produto</Text>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.titelsss}>{deliveriesProduct.product}</Text>
+                    <View style={{ padding: 10 }} />
+
+
+                    <Text style={styles.titelss}>Método de Pagamento</Text>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.titelsss}>{deliveriesProduct.payment_method_product}</Text>
+                    <View style={{ padding: 10 }} />
+
+                    <Text style={styles.titelss}>Preço Total</Text>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.titelsss}>R$ {deliveriesProduct.price_product}</Text>
+                    <View style={{ padding: 10 }} />
+
+                    <Text style={styles.titelss}>Troco</Text>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.titelsss}>R$ {deliveriesProduct.change_product}</Text>
                     <View style={{ padding: 10 }} />
                     {data.isDeliverman && <>
                         <Text style={styles.titelss}>Entregador</Text>
