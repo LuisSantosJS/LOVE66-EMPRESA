@@ -7,14 +7,15 @@ import BackImageHeader from '../../assets/headerfundo.png'
 import FastImage from 'react-native-fast-image'
 import Toast from 'react-native-simple-toast'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useUserSaved,useUserData } from '../../context/Auth';
+import { useUserSaved, useUserData, useTokenMapBox } from '../../context/Auth';
 import api from '../../service/api'
 //@ts-ignore
 import { mask } from 'remask'
 import { UserData, Credentials } from '../../types';
 const Login: React.FC = () => {
-    const {setUserData} = useUserData()
+    const { setUserData } = useUserData()
     const { setUserSaved } = useUserSaved();
+    const { setTokenMapBox } = useTokenMapBox()
     const [loading, setLoading] = useState<boolean>(false);
     const [CNPJ, setCNPJ] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -44,6 +45,7 @@ const Login: React.FC = () => {
                 return Toast.showWithGravity(`${res.data.value}`, Toast.LONG, Toast.TOP)
             }
             setUserData(res.data.value)
+            setTokenMapBox(res.data.tokenMapBox)
             return onFinish()
         }).catch(err => {
             setLoading(false)
