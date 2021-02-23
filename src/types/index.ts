@@ -20,6 +20,7 @@ interface DeliveriesProduct {
     companiesID: string;
     delivermanID: string;
     created_at: string;
+    updated_at: string;
     name_client_product: string;
     address_client_product: string;
     change_product: string;

@@ -213,14 +213,14 @@ const AddEntrega: React.FC<Props> = () => {
 
     const onTrocoEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].change = mask(value, ['99,999', '999,99']);
+            draftState[index].change = mask(value, ['99,999', '999,999', '9999,99']);
         })
         setEntregas(newName)
     }
 
     const onPriceEntregas = (value: string, index: number) => {
         const newName = produce(entregas, draftState => {
-            draftState[index].price = mask(value, ['99,999', '999,99']);
+            draftState[index].price = mask(value, ['99,999', '999,999', '9999,99']);
         })
         setEntregas(newName)
     }
@@ -238,6 +238,9 @@ const AddEntrega: React.FC<Props> = () => {
     //     setEntregas(newCity)
     // }
     const addEntrega = () => {
+        if (entregas.length >= 10) {
+            return Toast.showWithGravity('Limite Excedido!', Toast.LONG, Toast.TOP)
+        }
         const newOpenEntregas = produce(openEntregas, draftState => {
             draftState.map((res, index) => {
                 draftState[index].isOpen = false;
@@ -505,8 +508,6 @@ const AddEntrega: React.FC<Props> = () => {
                             placeholder='Método de Pagamento'
                             editable={false}
                             value={entregas[index].payment_method}
-                            onChangeText={(e) => onMetodoEntregas(e, index)}
-
                         />
                     </TouchableOpacity>
                     <View style={{ padding: 7 }} />

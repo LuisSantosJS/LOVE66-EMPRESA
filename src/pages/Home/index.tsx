@@ -90,6 +90,22 @@ const Home: React.FC = () => {
         }
     }
 
+    const getNamePortugiese = (e: string) => {
+        if (e === 'pending') {
+            return 'pendente'
+        }
+        if (e === 'seeking out') {
+            return 'Em mãos'
+        }
+        if (e === 'delivering') {
+            return 'levando'
+        }
+        if (e === 'complete') {
+            return 'entregue'
+        }
+        return 'loading'
+    }
+
 
     const onRefresh = () => {
         setLoading(true)
@@ -118,7 +134,7 @@ const Home: React.FC = () => {
                         </View>
                     </View>
                     <View style={styles.borderItemAlert}>
-                        <Text>{String(item.status_product).toUpperCase()}</Text>
+                        <Text>{String(getNamePortugiese(item.status_product)).toUpperCase()}</Text>
                     </View>
                 </RectButton>
             </>

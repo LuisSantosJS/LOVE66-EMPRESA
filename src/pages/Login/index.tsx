@@ -7,12 +7,13 @@ import BackImageHeader from '../../assets/headerfundo.png'
 import FastImage from 'react-native-fast-image'
 import Toast from 'react-native-simple-toast'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
-import { useUserSaved } from '../../context/Auth';
+import { useUserSaved,useUserData } from '../../context/Auth';
 import api from '../../service/api'
 //@ts-ignore
 import { mask } from 'remask'
 import { UserData, Credentials } from '../../types';
 const Login: React.FC = () => {
+    const {setUserData} = useUserData()
     const { setUserSaved } = useUserSaved();
     const [loading, setLoading] = useState<boolean>(false);
     const [CNPJ, setCNPJ] = useState<string>('');
@@ -42,6 +43,7 @@ const Login: React.FC = () => {
                 console.log(res.data)
                 return Toast.showWithGravity(`${res.data.value}`, Toast.LONG, Toast.TOP)
             }
+            setUserData(res.data.value)
             return onFinish()
         }).catch(err => {
             setLoading(false)

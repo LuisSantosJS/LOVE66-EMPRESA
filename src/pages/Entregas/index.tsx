@@ -11,11 +11,15 @@ import { useNavigation } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
 import styles from './styles'
 import { useUserData } from '../../context/Auth'
+import moment from 'moment'
+import 'moment/locale/pt-br';
+moment.locale('pt-br')
 //@ts-ignore 
 import { DeliveriesProduct } from '../../types'
 
 import api from '../../service/api';
 import NotDeliveries from './NotDeliveries';
+import { RectButton } from 'react-native-gesture-handler';
 const MotoIcon = require('../../assets/moto.png')
 
 const Entregas: React.FC = () => {
@@ -48,22 +52,21 @@ const Entregas: React.FC = () => {
     const _renderItem = (item: DeliveriesProduct, index: number) => {
         return (
             <>
-                <View style={styles.itemView}>
+                <RectButton onPress={() => navigation.navigate('Detalhes', { deliveriesProduct: item })} style={styles.itemView}>
                     <View style={styles.item}>
                         <View style={styles.circleItem}>
                             <FastImage style={styles.moto} source={MotoIcon} />
                         </View>
                         <View style={styles.bodyItem}>
-                            <Text style={[styles.text0, { fontSize: 20 }]}>REMESSA: {item.code_deliveries}</Text>
-                            <Text style={styles.text0}>Endereço: {item.address_client_product}</Text>
-                            <Text style={styles.text0}>Pagamento: {item.payment_method_product}</Text>
-                            <Text style={styles.text0}>Preço: {item.price_product} Troco:{item.change_product}</Text>
+                            <Text numberOfLines={1} style={[styles.text0, { fontSize: 20 }]}>REMESSA: {item.code_deliveries}</Text>
+                            <Text numberOfLines={2} style={styles.text0}>Endereço: {item.address_client_product}</Text>
+                            <Text numberOfLines={1} style={styles.text0}>Pagamento: {item.payment_method_product}</Text>
+                            <Text numberOfLines={1} style={styles.text0}>Preço: {item.price_product} Troco:{item.change_product}</Text>
+                            <Text numberOfLines={1} style={styles.text0}>{moment(item.updated_at).fromNow()}</Text>
                         </View>
+
                     </View>
-                    <View style={styles.borderItemAlert}>
-                        <Text>{String(item.status_product).toUpperCase()}</Text>
-                    </View>
-                </View>
+                </RectButton>
             </>
         )
     }
