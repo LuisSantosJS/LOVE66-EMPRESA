@@ -9,6 +9,8 @@ type ContextType = {
     setUserData: (value: UserData) => void;
     userSaved: boolean | null;
     setUserSaved: (value: boolean) => void;
+    tokenMapBox: string;
+    setTokenMapBox: (value: string) => void;
 
 };
 
@@ -16,12 +18,15 @@ const ContextApp = createContext<ContextType>({
     userData: {} as UserData,
     setUserData: (Value: UserData) => { },
     userSaved: false,
-    setUserSaved: (value: boolean | null) => { }
+    setUserSaved: (value: boolean | null) => { },
+    tokenMapBox: '',
+    setTokenMapBox: (value: string) => { },
 });
 
 const ProviderAuth: React.FC = ({ children }) => {
     const [userSaved, setUserSaved] = useState<boolean | null>(null);
     const [userData, setUserData] = useState<UserData>({} as UserData)
+    const [tokenMapBox, setTokenMapBox] = useState<string>('');
 
 
     const getData = async () => {
@@ -46,6 +51,7 @@ const ProviderAuth: React.FC = ({ children }) => {
                 setUserSaved(false)
                 return Toast.showWithGravity(`${res.data.value}`, Toast.LONG, Toast.TOP)
             }
+            setTokenMapBox(res.data.tokenMapBox)
             setUserData(res.data.value);
             setUserSaved(true);
         }).catch(err => {
@@ -58,7 +64,8 @@ const ProviderAuth: React.FC = ({ children }) => {
     return (
         <ContextApp.Provider value={{
             userData, setUserData,
-            userSaved, setUserSaved
+            userSaved, setUserSaved,
+            tokenMapBox, setTokenMapBox
         }}>
             {children}
         </ContextApp.Provider>
@@ -76,4 +83,10 @@ export function useUserSaved() {
     const infoUser: ContextType = useContext(ContextApp);
     const { userSaved, setUserSaved } = infoUser;
     return { userSaved, setUserSaved };
+}
+
+export function useTokenMapBox() {
+    const infoUser: ContextType = useContext(ContextApp);
+    const { tokenMapBox, setTokenMapBox } = infoUser;
+    return { tokenMapBox, setTokenMapBox };
 }

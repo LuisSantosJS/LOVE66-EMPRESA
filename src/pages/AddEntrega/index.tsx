@@ -32,7 +32,7 @@ import { useNavigation } from '@react-navigation/native';
 import produce from "immer"
 import api from '../../service/api';
 import axios from 'axios';
-import { useUserData, useUserSaved } from '../../context/Auth';
+import { useUserData, useUserSaved, useTokenMapBox } from '../../context/Auth';
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -84,6 +84,7 @@ const AddEntrega: React.FC<Props> = () => {
     const [indexLocationItem, setIndexLocationItem] = useState<number | null>(null)
     const { userData } = useUserData();
     const [indexPayment, setIndexPayment] = useState<number>(0);
+    const {tokenMapBox} = useTokenMapBox()
 
     const sheetRef = React.useRef<any>(null);
     const API = axios.create({
@@ -543,7 +544,7 @@ const AddEntrega: React.FC<Props> = () => {
         )
     }
     const onSearch = async (e: string) => {
-        return API.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=pk.eyJ1IjoibHVpc3RzeCIsImEiOiJja2prcnB2dHkyM2FwMnFwZ3B6YTQ5Ym02In0.QVOoBMR87GNBpSwWS7y8QA`).then(res => {
+        return API.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/${e}.json?access_token=${tokenMapBox}`).then(res => {
             setFeatures(res.data.features)
         }).catch(err => console.log(err))
     }
