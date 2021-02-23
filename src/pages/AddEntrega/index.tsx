@@ -7,7 +7,8 @@ import {
     FlatList,
     Dimensions,
     TouchableOpacity,
-    Image
+    Image,
+    ActivityIndicator
 } from 'react-native';
 import styles from './styles'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
@@ -299,7 +300,7 @@ const AddEntrega: React.FC<Props> = () => {
         if (loading) {
             return;
         }
-        setLoading(true)
+
 
         const val: any = entregas.map(res => {
             return {
@@ -325,6 +326,7 @@ const AddEntrega: React.FC<Props> = () => {
         if (isNotFailt) {
             return Toast.showWithGravity('Preencha todos os campos!', Toast.LONG, Toast.TOP)
         }
+        setLoading(true)
         api.post('/api/deliveries', {
             delivermanID: "",
             companiesID: userData.id,
@@ -337,10 +339,12 @@ const AddEntrega: React.FC<Props> = () => {
                 Toast.showWithGravity(res.data.value, Toast.LONG, Toast.TOP)
 
             }
-            setLoading(false)
+
         }).catch(err => {
             console.log(err)
             Toast.showWithGravity(err, Toast.LONG, Toast.TOP)
+      
+        }).finally(()=>{
             setLoading(false)
         })
 
@@ -585,9 +589,12 @@ const AddEntrega: React.FC<Props> = () => {
                             <View style={{ padding: 30 }} />
 
                             <TouchableOpacity onPress={() => submit()} activeOpacity={0.7} style={styles.submit}>
-                                <Text style={styles.textsubmit}>
-                                    SOLICITAR ENTREGADOR
-                                </Text>
+                                {loading ?
+                                    <ActivityIndicator size='large' color='white' />
+                                    :
+                                    <Text style={styles.textsubmit}>
+                                        SOLICITAR ENTREGADOR
+                                    </Text>}
                             </TouchableOpacity>
                             <View style={{ padding: 200 }} />
                         </View>
