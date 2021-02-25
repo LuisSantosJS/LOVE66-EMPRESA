@@ -523,6 +523,7 @@ const AddEntrega: React.FC<Props> = () => {
                             <TextInput
                                 style={styles.inptusd}
                                 placeholder='0,00'
+                                keyboardType='number-pad'
                                 value={entregas[index].change}
                                 onChangeText={(e) => onTrocoEntregas(e, index)}
                             />
@@ -533,6 +534,7 @@ const AddEntrega: React.FC<Props> = () => {
                             <TextInput
                                 style={styles.inptusd}
                                 placeholder='0,00'
+                                keyboardType='number-pad'
                                 value={entregas[index].price}
                                 onChangeText={(e) => onPriceEntregas(e, index)}
                             />
