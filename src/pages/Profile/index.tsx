@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
     }
     return (
         <>
-            <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
+            <Header title={`LOVE 66 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
             <View style={styles.container}>
                 <View style={{ padding: 10 }} />
                 <Text style={styles.text}>Olá, <Text style={{ color: '#707070', fontWeight: '700' }}>{String(userData.name_companies).toUpperCase()}</Text></Text>

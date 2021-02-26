@@ -18,11 +18,11 @@ import { useUserData } from '../../context/Auth'
 //@ts-ignore 
 import Add from '../../assets/icons/addM.png'
 import { DeliveriesProduct } from '../../types'
-
 import api, { URL } from '../../service/api';
 import io from 'socket.io-client'
 import NotDeliveries from './NotDeliveries';
 import { RectButton } from 'react-native-gesture-handler';
+
 const MotoIcon = require('../../assets/moto.png')
 
 const Home: React.FC = () => {
@@ -35,7 +35,6 @@ const Home: React.FC = () => {
 
 
     const socket = io(URL)
-
 
     const [numberEntregas, setNumberEntregas] = useState<string>('1');
     const handleNavigation = async () => {
@@ -76,6 +75,17 @@ const Home: React.FC = () => {
             setData(nextState)
         })
     }
+
+
+    const onLoadSocket = () => {
+        socket.on(`${userData.id}`, () => {
+            return onRefresh()
+        })
+    }
+
+    useEffect(()=>{
+        onLoadSocket()
+    },[])
 
     const open = (address: string) => {
         Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${String(address).replace(' ', '%20')}`);
@@ -145,7 +155,7 @@ const Home: React.FC = () => {
     }
     return (
         <>
-            <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
+            <Header title={`LOVE 66 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
 
             {loading ?
                 <View style={styles.container}>
@@ -155,7 +165,7 @@ const Home: React.FC = () => {
                 <FlatList
                     data={data}
                     style={{ flex: 1 }}
-                    ListEmptyComponent={()=> <NotDeliveries/>}
+                    ListEmptyComponent={() => <NotDeliveries />}
                     onRefresh={() => onRefresh()}
                     refreshing={inRefresh}
                     ListFooterComponent={() => <View style={{ padding: 40 }} />}

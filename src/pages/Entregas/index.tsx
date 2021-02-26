@@ -17,7 +17,7 @@ moment.locale('pt-br')
 //@ts-ignore 
 import { DeliveriesProduct } from '../../types'
 
-import api from '../../service/api';
+import api, { URL } from '../../service/api';
 import NotDeliveries from './NotDeliveries';
 import { RectButton } from 'react-native-gesture-handler';
 const MotoIcon = require('../../assets/moto.png')
@@ -29,6 +29,8 @@ const Entregas: React.FC = () => {
     const [data, setData] = useState<DeliveriesProduct[]>([]);
     const [inRefresh, setinRefresh] = useState<boolean>(false)
 
+
+    const socket = io(URL)
     useEffect(() => {
         load()
     }, [])
@@ -42,6 +44,17 @@ const Entregas: React.FC = () => {
             setLoading(false)
         }
     }
+
+
+    const onLoadSocket = () => {
+        socket.on(`${userData.id}`, () => {
+            return onRefresh()
+        })
+    }
+
+    useEffect(() => {
+        onLoadSocket()
+    }, [])
 
 
     const onRefresh = () => {
@@ -64,7 +77,6 @@ const Entregas: React.FC = () => {
                             <Text numberOfLines={1} style={styles.text0}>Preço: {item.price_product} Troco:{item.change_product}</Text>
                             <Text numberOfLines={1} style={styles.text0}>{moment(item.updated_at).fromNow()}</Text>
                         </View>
-
                     </View>
                 </RectButton>
             </>
@@ -72,7 +84,7 @@ const Entregas: React.FC = () => {
     }
     return (
         <>
-            <Header title={`LOVE 99 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
+            <Header title={`LOVE 66 - ${String(userData.name_companies).toUpperCase()}`} navigation={navigation} />
 
             {loading ?
                 <View style={styles.container}>

@@ -60,11 +60,15 @@ const Detalhes: React.FC<Props> = ({ route: { params: { deliveriesProduct } } })
         if (e === 'delivering') {
             return 'levando'
         }
-        if (e === 'complete') {
+        if (e === 'delivered') {
             return 'entregue'
+        }
+        if (e === 'complete') {
+            return 'finalizada'
         }
         return 'loading'
     }
+
     return (
         <>
             <ScrollView>
