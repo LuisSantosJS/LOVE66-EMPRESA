@@ -18,6 +18,7 @@ moment.locale('pt-br')
 import { DeliveriesProduct } from '../../types'
 
 import api, { URL } from '../../service/api';
+import io from 'socket.io-client'
 import NotDeliveries from './NotDeliveries';
 import { RectButton } from 'react-native-gesture-handler';
 const MotoIcon = require('../../assets/moto.png')

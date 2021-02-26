@@ -113,8 +113,11 @@ const Home: React.FC = () => {
         if (e === 'delivered') {
             return 'entregue'
         }
+        if (e === 'returning') {
+            return 'voltando'
+        }
         if (e === 'complete') {
-            return 'finalizada'
+            return 'finalizado'
         }
         return 'loading'
     }

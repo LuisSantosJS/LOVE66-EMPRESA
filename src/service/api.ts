@@ -1,6 +1,6 @@
 import axios from 'axios';
 axios.defaults.timeout = 10000;
-const URL = 'http://192.168.100.99:3333';
+const URL = 'https://love-66-api-e9r53.ondigitalocean.app';
 const api = axios.create({
   baseURL: URL,
   validateStatus: (status) => {
