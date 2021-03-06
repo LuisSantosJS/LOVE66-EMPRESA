@@ -54,6 +54,7 @@ interface EntregasFinal {
     payment_method: string;
     price: string;
     product: string;
+    delivermanCommission: string;
 }
 
 interface Entregas {
@@ -67,6 +68,7 @@ interface Entregas {
     long: string | undefined;
     price: string | undefined;
     product: string | undefined;
+    delivermanCommission: string;
 }
 
 interface Features {
@@ -84,7 +86,7 @@ const AddEntrega: React.FC<Props> = () => {
     const [indexLocationItem, setIndexLocationItem] = useState<number | null>(null)
     const { userData } = useUserData();
     const [indexPayment, setIndexPayment] = useState<number>(0);
-    const {tokenMapBox} = useTokenMapBox()
+    const { tokenMapBox } = useTokenMapBox()
 
     const sheetRef = React.useRef<any>(null);
     const API = axios.create({
@@ -98,15 +100,17 @@ const AddEntrega: React.FC<Props> = () => {
 
     const [entregas, setEntregas] = useState<Entregas[]>([{
         name_client: '',
-        change: '',
+        change: '00,00',
         number: '',
         street: '',
         address_client: '',
-        lat: '',
-        long: '',
+        lat: '0',
+        long: '0',
         payment_method: '',
-        price: '',
+        price: '00,00',
         product: '',
+        delivermanCommission: '00,00'
+
     }])
     const [openEntregas, setOpenEntregas] = useState<OpenEntregas[]>([{
         isOpen: true
@@ -227,6 +231,13 @@ const AddEntrega: React.FC<Props> = () => {
         setEntregas(newName)
     }
 
+    const onCommision = (value: string, index: number) => {
+        const newC = produce(entregas, draftState => {
+            draftState[index].delivermanCommission = mask(value, ['99,999', '999,999', '9999,99']);
+        })
+        setEntregas(newC)
+    }
+
     // const onStreetEntregas = (value: string, index: number) => {
     //     const newstreet = produce(entregas, draftState => {
     //         draftState[index].street = value;
@@ -255,15 +266,16 @@ const AddEntrega: React.FC<Props> = () => {
         const NewEntregas = produce(entregas, draftState => {
             draftState.push({
                 name_client: '',
-                change: '',
+                change: '00,00',
                 number: '',
                 street: '',
                 address_client: '',
-                lat: '',
-                long: '',
+                lat: '0',
+                long: '0',
                 payment_method: '',
-                price: '',
+                price: '00,00',
                 product: '',
+                delivermanCommission: '00,00'
             })
         })
         setEntregas(NewEntregas)
@@ -275,7 +287,6 @@ const AddEntrega: React.FC<Props> = () => {
         setIsOpenModal(true)
     }
     const onDelele = () => {
-
         const en: any = entregas.map((res, index) => {
             if (index !== indexDeleteItem) {
                 return res;
@@ -295,14 +306,18 @@ const AddEntrega: React.FC<Props> = () => {
 
     }
 
+    const onAddres = (value: string, index: number) => {
+        const newC = produce(entregas, draftState => {
+            draftState[index].address_client = value;
+        })
+        setEntregas(newC)
+    }
 
     const submit = () => {
         console.log(entregas)
         if (loading) {
             return;
         }
-
-
         const val: any = entregas.map(res => {
             return {
                 address_client: `${res.number}, ${res.address_client}, ${res.street}`,
@@ -312,14 +327,15 @@ const AddEntrega: React.FC<Props> = () => {
                 name_client: res.name_client,
                 payment_method: res.payment_method,
                 price: res.price,
-                product: res.product
+                product: res.product,
+                delivermanCommission: res.delivermanCommission
             }
         })
 
         const value: EntregasFinal[] = val;
         var isNotFailt = false;
         value.map(ess => {
-            if ((String(ess.address_client).length === 0) || (String(ess.change).length === 0) || (String(ess.lat).length === 0) || (String(ess.long).length === 0) || (String(ess.name_client).length === 0) || (String(ess.payment_method).length === 0) || (String(ess.price).length === 0) || (String(ess.product).length === 0)) {
+            if ((String(ess.address_client).length === 0) || (String(ess.change).length === 0) || (String(ess.name_client).length === 0) || (String(ess.payment_method).length === 0) || (String(ess.price).length === 0) || (String(ess.product).length === 0)) {
                 return isNotFailt = true
 
             }
@@ -344,8 +360,8 @@ const AddEntrega: React.FC<Props> = () => {
         }).catch(err => {
             console.log(err)
             Toast.showWithGravity(err, Toast.LONG, Toast.TOP)
-      
-        }).finally(()=>{
+
+        }).finally(() => {
             setLoading(false)
         })
 
@@ -442,14 +458,14 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 7 }} />
                     <Text style={styles.text}>Endereço de destino</Text>
                     <View style={{ padding: 5 }} />
-                    <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}>
-                        <TextInput
-                            style={styles.inptusd}
-                            placeholder='Endereço'
-                            editable={false}
-                            value={entregas[index].address_client}
-                        />
-                    </TouchableOpacity>
+                    {/* <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}> */}
+                    <TextInput
+                        style={styles.inptusd}
+                        placeholder='Rua, Número - Bairro, Cidade - Estado'
+                        onChangeText={(e) => onAddres(e, index)}
+                        value={entregas[index].address_client}
+                    />
+                    {/* </TouchableOpacity> */}
                     <View style={{ padding: 5 }} />
 
                     {/* <View style={styles.medate}>
@@ -540,7 +556,17 @@ const AddEntrega: React.FC<Props> = () => {
                             />
                         </View>
                     </View>
-                    <View style={{ padding: 20 }} />
+                    <View style={{ padding: 25 }} />
+                    <Text style={styles.text}>Commisão do entregador</Text>
+                    <View style={{ padding: 5 }} />
+                    <TextInput
+                        style={styles.inptusd}
+                        placeholder=''
+                        keyboardType='number-pad'
+                        value={entregas[index].delivermanCommission}
+                        onChangeText={(e) => onCommision(e, index)}
+                    />
+                    <View style={{ padding: 10 }} />
                 </View>}
             </View>
         )
