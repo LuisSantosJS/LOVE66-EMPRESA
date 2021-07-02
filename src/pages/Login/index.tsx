@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './styles'
-import { View, ScrollView, Text, TextInput, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, ScrollView, Text, TextInput, TouchableOpacity, ActivityIndicator, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //@ts-ignore
 import BackImageHeader from '../../assets/headerfundo.png'
@@ -73,18 +73,21 @@ const Login: React.FC = () => {
     }
     return (
         <>
+            <StatusBar barStyle='dark-content' backgroundColor='white' />
             <ScrollView showsVerticalScrollIndicator={false}>
-                <View style={{ width: '100%', height: getStatusBarHeight(true), backgroundColor: '#FF032A' }} />
-                <FastImage resizeMode={FastImage.resizeMode.contain} source={BackImageHeader} style={styles.headrIIamge} />
+
+                <View style={{ width: '100%', height: getStatusBarHeight(true), backgroundColor: 'white' }} />
+
                 <View style={styles.container}>
-                    <Text style={styles.text}>
-                        <Text style={{ fontWeight: 'bold' }}>Olá</Text>, seja bem vindo a maior
-                        plataforma de entregas do brasil
-                    </Text>
                     <View style={{ padding: 10 }} />
+                    <FastImage resizeMode={FastImage.resizeMode.contain} source={BackImageHeader} style={styles.headrIIamge} />
+
+                    <Text style={styles.tex}>Realize seu login =D</Text>
+
+                    <View style={{ padding: 30 }} />
                     <TextInput
                         style={styles.inputs}
-                        placeholder='CNPJ'
+                        placeholder='Digite seu CNPJ'
                         keyboardType='number-pad'
                         value={CNPJ}
                         onChangeText={(e) => onCNPJ(e)}
@@ -92,16 +95,21 @@ const Login: React.FC = () => {
                     <View style={{ padding: 10 }} />
                     <TextInput
                         style={styles.inputs}
-                        placeholder='Senha'
+                        placeholder='Digite sua Senha'
                         secureTextEntry
                         value={password}
                         onChangeText={(e) => setPassword(e)}
                     />
-                    <View style={{ padding: 10 }} />
+                    <View style={{ padding: 30 }} />
                     <TouchableOpacity activeOpacity={0.7} onPress={onSubmit} style={styles.submit}>
                         {loading ? <ActivityIndicator size='large' color='white' /> :
-                            <Text style={styles.textSubmit}>ACESSAR SISTEMA</Text>}
+                            <Text style={styles.textSubmit}>FAZER LOGIN</Text>}
                     </TouchableOpacity>
+                    <View style={{ padding: 5 }} />
+                    <Text style={styles.textt}>
+                        Ao confirmar seu login você confirma
+                        nossos <Text style={{color:'#FF032A'}}>politica de privacidade</Text>
+                    </Text>
                     <View style={{ padding: 10 }} />
                 </View>
             </ScrollView>
