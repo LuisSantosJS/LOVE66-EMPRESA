@@ -4,12 +4,14 @@ import {
     Text,
     ScrollView,
     TextInput,
+    PermissionsAndroid,
     FlatList,
     Dimensions,
     TouchableOpacity,
     Image,
     ActivityIndicator
 } from 'react-native';
+import RNGooglePlaces from 'react-native-google-places'
 import styles from './styles'
 import { getStatusBarHeight } from 'react-native-status-bar-height';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -119,6 +121,18 @@ const AddEntrega: React.FC<Props> = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [features, setFeatures] = useState<Features[]>([])
 
+    const ONPlaces = (index: number) => {
+        RNGooglePlaces.openAutocompleteModal()
+            .then((place) => {
+                console.log(place);
+                const newEntregas = produce(entregas, draftState => {
+                    draftState[index].lat = String(place.location.latitude);
+                    draftState[index].long = String(place.location.longitude)
+                    draftState[index].address_client = place.address
+                })
+            })
+            .catch(error => console.log(error.message));
+    }
 
 
     // const renderUF = () => (
@@ -164,7 +178,8 @@ const AddEntrega: React.FC<Props> = () => {
     //     })
     //     setEntregas(initEntregas)
 
-    // }
+
+
 
     const openClose = (index: number) => {
         const newOpenEntregas = produce(openEntregas, draftState => {
@@ -250,6 +265,7 @@ const AddEntrega: React.FC<Props> = () => {
     //     })
     //     setEntregas(newCity)
     // }
+
     const addEntrega = () => {
         if (entregas.length >= 10) {
             return Toast.showWithGravity('Limite Excedido!', Toast.LONG, Toast.TOP)
@@ -456,15 +472,20 @@ const AddEntrega: React.FC<Props> = () => {
                         onChangeText={(e) => onNameEntregas(e, index)}
                     />
                     <View style={{ padding: 7 }} />
+
+
+
+
                     <Text style={styles.text}>Endereço de destino</Text>
                     <View style={{ padding: 5 }} />
                     {/* <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}> */}
-                    <TextInput
-                        style={styles.inptusd}
-                        placeholder='Rua, Número - Bairro, Cidade - Estado'
-                        onChangeText={(e) => onAddres(e, index)}
-                        value={entregas[index].address_client}
-                    />
+                    <TouchableOpacity
+                    activeOpacity={0.8}
+                        onPress={() => ONPlaces(index)}
+
+                    >
+                        <TextInput placeholder='Rua, número, cidade...' editable={false} style={styles.inptusd} />
+                    </TouchableOpacity>
                     {/* </TouchableOpacity> */}
                     <View style={{ padding: 5 }} />
 
