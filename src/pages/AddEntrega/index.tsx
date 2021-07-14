@@ -130,6 +130,7 @@ const AddEntrega: React.FC<Props> = () => {
                     draftState[index].long = String(place.location.longitude)
                     draftState[index].address_client = place.address
                 })
+                setEntregas(newEntregas)
             })
             .catch(error => console.log(error.message));
     }
@@ -468,6 +469,7 @@ const AddEntrega: React.FC<Props> = () => {
                     <TextInput
                         style={styles.inptusd}
                         placeholder='Insira o nome o cliente'
+                        placeholderTextColor='#707070'
                         value={entregas[index].name_client}
                         onChangeText={(e) => onNameEntregas(e, index)}
                     />
@@ -480,11 +482,11 @@ const AddEntrega: React.FC<Props> = () => {
                     <View style={{ padding: 5 }} />
                     {/* <TouchableOpacity activeOpacity={0.7} onPress={() => setIndexLocationItem(index)}> */}
                     <TouchableOpacity
-                    activeOpacity={0.8}
+                        activeOpacity={0.8}
                         onPress={() => ONPlaces(index)}
-
+                        style={[styles.inptusd, {justifyContent:'center'}]}
                     >
-                        <TextInput placeholder='Rua, número, cidade...' editable={false} style={styles.inptusd} />
+                        <Text style={{color:'#707070'}} >{entregas[index]?.address_client || 'Rua, número, cidade...'}</Text>
                     </TouchableOpacity>
                     {/* </TouchableOpacity> */}
                     <View style={{ padding: 5 }} />
@@ -512,6 +514,7 @@ const AddEntrega: React.FC<Props> = () => {
                         style={styles.inptusd}
                         value={entregas[index].number}
                         keyboardType='number-pad'
+                        placeholderTextColor='#707070'
                         placeholder='Insira o número'
                         onChangeText={(e) => onNumberEntregas(e, index)}
                     />
@@ -525,6 +528,7 @@ const AddEntrega: React.FC<Props> = () => {
                     <TextInput
                         style={styles.inptusd}
                         placeholder='Insira uma referência'
+                        placeholderTextColor='#707070'
                         value={entregas[index].street}
                         onChangeText={(e) => onStreetEntregas(e, index)}
                     />
@@ -535,6 +539,7 @@ const AddEntrega: React.FC<Props> = () => {
                     <TextInput
                         style={styles.inptusd}
                         placeholder='Insira o produto'
+                        placeholderTextColor='#707070'
                         value={entregas[index].product}
                         onChangeText={(e) => onProdutoEntregas(e, index)}
                     />
@@ -548,6 +553,7 @@ const AddEntrega: React.FC<Props> = () => {
                         <TextInput
                             style={styles.inptusd}
                             placeholder='Método de Pagamento'
+                            placeholderTextColor='#707070'
                             editable={false}
                             value={entregas[index].payment_method}
                         />
@@ -559,6 +565,7 @@ const AddEntrega: React.FC<Props> = () => {
                             <View style={{ padding: 5 }} />
                             <TextInput
                                 style={styles.inptusd}
+                                placeholderTextColor='#707070'
                                 placeholder='0,00'
                                 keyboardType='number-pad'
                                 value={entregas[index].change}
@@ -570,6 +577,7 @@ const AddEntrega: React.FC<Props> = () => {
                             <View style={{ padding: 5 }} />
                             <TextInput
                                 style={styles.inptusd}
+                                placeholderTextColor='#707070'
                                 placeholder='0,00'
                                 keyboardType='number-pad'
                                 value={entregas[index].price}
@@ -583,6 +591,7 @@ const AddEntrega: React.FC<Props> = () => {
                     <TextInput
                         style={styles.inptusd}
                         placeholder=''
+                        placeholderTextColor='#707070'
                         keyboardType='number-pad'
                         value={entregas[index].delivermanCommission}
                         onChangeText={(e) => onCommision(e, index)}
